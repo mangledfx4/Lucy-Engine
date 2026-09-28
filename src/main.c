@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     // const char *say = "Hello, Lucy Engine!";
     // const char *font = "fontbold.ttf";
      const char *title = "3D";
-     FILE *file = fopen("Test.stxt", "r");
+     //FILE *file = fopen("Test.stxt", "r");
     //
      if (argc > 1)
      {
