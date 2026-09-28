@@ -9,4 +9,9 @@ Here’s the source code. Fuck around and find out.
 Made while vibing to Three Days Grace.
 
 ###Features###
-I fogor
+custom abstraction;
+3D;
+Simple
+Compiled Linux executable is only 21.3KB
+Gets controls from mouse
+Uses OpenGL and SDL
