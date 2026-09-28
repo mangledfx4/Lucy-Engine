@@ -11,7 +11,7 @@ Made while vibing to Three Days Grace.
 ###Features###
 custom abstraction;
 3D;
-Simple
-Compiled Linux executable is only 21.3KB
-Gets controls from mouse
-Uses OpenGL and SDL
+Simple;
+Compiled Linux executable is only 21.3KB;
+Gets controls from the mouse;
+Uses OpenGL and SDL;
