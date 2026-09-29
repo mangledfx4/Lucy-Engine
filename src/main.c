@@ -5,6 +5,11 @@
 #include <GL/gl.h>
 #include "cube.h"
 #include "floor.h"
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+
+
  int X_size = 1280; //1280 or 800
  int Y_size = 720; //720 or 600
 int angle_x = 0.0;
@@ -12,12 +17,28 @@ int angle_y = 0.0;
 float angle = 0.0f;
 
 
-int quit(void)
+static int lua_hello(lua_State *L)
 {
+    printf("Hello from C!\n");
     return 0;
-    //TTF_Quit(); //makes EVERYTHING give up
-
 }
+static int lua_cube(lua_State *L)
+{
+    int x = luaL_checkinteger(L, 1);
+    int y = luaL_checkinteger(L, 2);
+    int z = luaL_checkinteger(L, 3);
+
+    draw_cube(x, y, z);
+
+    return 0;
+}
+static int lua_floor(lua_State *L)
+{
+    draw_floor(0, -1, 0);
+    return 0;
+}
+        
+        
 
 int main(int argc, char *argv[])
 {
@@ -26,8 +47,23 @@ int main(int argc, char *argv[])
     // const char *say = "Hello, Lucy Engine!";
     // const char *font = "fontbold.ttf";
      const char *title = "3D";
-     //FILE *file = fopen("Test.stxt", "r");
-    //
+    // FILE *file = fopen("Test.stxt", "r");
+    lua_State *L = luaL_newstate();
+
+	luaL_openlibs(L);
+
+    lua_register(L, "say_hello", lua_hello);
+	lua_register(L, "draw_cube", lua_cube);
+	lua_register(L, "draw_plane", lua_floor);
+	
+	luaL_dofile(L, "mods/main.lua");
+	if (luaL_dofile(L, "mods/main.lua") != LUA_OK)
+{
+    fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
+    lua_pop(L, 1);
+}
+
+
      if (argc > 1)
      {
          title = argv[1];
@@ -44,12 +80,12 @@ int main(int argc, char *argv[])
      // }
      //
      // fclose(file);
-        int x = 0;
-        int y = 0; //WHY DIDN'T YOU GUYS HAVE SEMICOLONS?
-        int z = 0;
-       x =+ atoi(argv[2]);
-       y =+ atoi(argv[3]);
-       z =+ atoi(argv[4]);
+        //int x = 0;
+        //int y = 0; //WHY DIDN'T YOU GUYS HAVE SEMICOLONS?
+        //int z = 0;
+//       x =+ atoi(argv[2]);
+//       y =+ atoi(argv[3]);
+//       z =+ atoi(argv[4]);
      // int x1 = atoi(argv[5]);
      // int y1 = atoi(argv[6]);
      // int z1 = atoi(argv[7]);
@@ -65,9 +101,6 @@ int main(int argc, char *argv[])
     //
     // make_window(title);
     make_3d_window(X_size, Y_size, title);
-    printf("Window created with the name of %s\n", title);
-
-
     // TTF_Init(); //makes TTF have a life
 
     int running = 1; //tells the engine that its alive
@@ -87,8 +120,8 @@ int main(int argc, char *argv[])
             }
             if (event.type == SDL_MOUSEMOTION)
             {
-                /*angle_*/y += event.motion.xrel;
-                /*angle_*/x += event.motion.yrel;
+                angle_y += event.motion.xrel;
+                angle_x += event.motion.yrel;
                 // printf("Mouse X", angle_x, "\n");
                 // printf("Mouse Y", angle_y, "\n");
             }
@@ -109,14 +142,29 @@ int main(int argc, char *argv[])
         glRotatef(angle_x, 1.0f, 0.0f, 0.0f);
         glRotatef(angle_y, 0.0f, 1.0f, 0.0f);
 
-        draw_cube(x, y, z); //YOU CAN MOVE THE CUBE AGAIN!
-        draw_floor(0, -1, 0);
+        //draw_cube(0, 0, 0); //YOU CAN'T MOVE THE CUBE AGAIN!
+        //draw_floor(0, -1, 0);
         //draw_floor();
         //printf ("Floor drawn!");
+lua_getglobal(L, "draw");
+
+if (lua_isfunction(L, -1))
+{
+    if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+    {
+        fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
+        lua_pop(L, 1);
+    }
+}
+else
+{
+    lua_pop(L, 1);
+}
 
         SDL_GL_SwapWindow(window);
 
         //angle += 1.0f;
     }
+	lua_close(L);
     return 0;
 }

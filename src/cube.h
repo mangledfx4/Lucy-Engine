@@ -1,11 +1,11 @@
 #ifndef CUBE_H
 #define CUBE_H
 #endif
-#ifndef DEBUG_POSITION_COLOR
-#define DEBUG_POSITION_COLOR 0  // Override with -DDEBUG_POSITION_COLOR=1
+#ifndef DEBUG
+#define DEBUG 0  // Override with -DDEBUG=1
 #endif
 
-#if DEBUG_POSITION_COLOR
+#if DEBUG
 void draw_cube(int x, int y, int z) //makes a 3-inch by 2-1/2-inch 3D box!
 {
     glBegin(GL_QUADS);
