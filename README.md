@@ -18,3 +18,9 @@ Somehow works
 Caused me emotional trauma
 
 My friends like it
+
+# Inspiration
+
+I was mostly inspired by the Cube engine, but if it had the rendering of 2007 Roblox and the abstraction of goldsrc,
+
+God I have too much free time
