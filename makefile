@@ -1,6 +1,6 @@
 CC = gcc
 
-LUA = $(HOME)/lua-5.5.1
+LUA = /lua-5.5.1
 
 CFLAGS = -Wall -Wextra $(shell sdl2-config --cflags) -I$(LUA)/src
 DCFLAGS = -Wall -Wextra $(shell sdl2-config --cflags) -DDEBUG=1 -I$(LUA)/src
