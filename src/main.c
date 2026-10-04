@@ -10,10 +10,10 @@
 #include "lualib.h"
 
 
- int X_size = 1280; //1280 or 800
- int Y_size = 720; //720 or 600
-int angle_x = 0.0;
-int angle_y = 0.0;
+ int X_size = 800; //1280 or 800
+ int Y_size = 600; //720 or 600
+float angle_x = 0.0;
+float angle_y = 0.0;
 float angle = 0.0f;
 
 
@@ -147,6 +147,7 @@ int main(int argc, char *argv[])
         //draw_floor();
         //printf ("Floor drawn!");
 lua_getglobal(L, "draw");
+//lua_getglobal(L, "randdraw");
 
 if (lua_isfunction(L, -1))
 {

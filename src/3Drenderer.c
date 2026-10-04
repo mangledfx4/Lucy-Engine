@@ -24,7 +24,7 @@ void make_3d_window(int X_size, int Y_size, const char *title) //makes the windo
     glFrustum(
         -1.0, 1.0,    // left, right
         -0.75, 0.75,  // bottom, top
-        1.0, 100.0    // near, far
+        0.5, 200.0    // near, far
     );
 
     glMatrixMode(GL_MODELVIEW);
