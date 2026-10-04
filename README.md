@@ -29,7 +29,7 @@ God I have too much free time
 
 Just provide a compiled version of Lua (according to the version the makefile contains, if needed you can edit it and the code for newer versions) in your Downloads folder and run "make"
 
-gladly I am nice enough to provide it for you
+g̶l̶a̶d̶l̶y̶ I̶ a̶m̶ n̶i̶c̶e̶ e̶n̶o̶u̶g̶h̶ t̶o̶ p̶r̶o̶v̶i̶d̶e̶ i̶t̶ f̶o̶r̶ y̶o̶u̶
 
 # why am I using older versions of OpenGL and SDL?
 
