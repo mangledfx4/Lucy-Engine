@@ -34,7 +34,10 @@ static int lua_cube(lua_State *L)
 }
 static int lua_floor(lua_State *L)
 {
-    draw_floor(0, -1, 0);
+	int x1 = luaL_checkinteger(L, 1);
+    int y1 = luaL_checkinteger(L, 2);
+    int z1 = luaL_checkinteger(L, 3);
+    draw_floor(x1, y1, z1);
     return 0;
 }
         
