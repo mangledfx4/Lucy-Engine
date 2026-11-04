@@ -1,6 +1,6 @@
 # Lucy-Engine
 
-A custom game engine written in C.
+A custom game engine written in C named after a long dead pet bird.
 
 Licensed under GPL-3.0.
 
