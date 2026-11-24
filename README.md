@@ -30,7 +30,7 @@ God I have too much free time
 
 Just provide a compiled version of Lua (according to the version the makefile contains, if needed you can edit it and the code for newer versions) in your Downloads folder and run "make"
 
-UNLESS, you install Lib-Lua, see "Requirements" to do that.
+Liblua doesn't do anything to help, though I still recommend to have it installed
 
 # why am I using older versions of OpenGL mixed with SDL2?
 
