@@ -1,4 +1,4 @@
-Fuck this Readme, look in the "Lucy-Engine" folder
+Fuck this Readme, look in the "Lucy-Engine" folder for the actual newer engine version (at least until I FIX IT)
 I'll copy the new Readme into here:
 
 # Lucy-Engine
