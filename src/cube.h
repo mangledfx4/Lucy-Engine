@@ -6,7 +6,7 @@
 #endif
 
 #if DEBUG
-void draw_cube(int x, int y, int z) //makes a 3-inch by 2-1/2-inch 3D box!
+void draw_cube(float x, float y, float z) //makes a 3-inch by 2-1/2-inch 3D box!
 {
     glBegin(GL_QUADS);
 
@@ -57,7 +57,7 @@ void draw_cube(int x, int y, int z) //makes a 3-inch by 2-1/2-inch 3D box!
 
 #else
 // normal colors
-void draw_cube(int x, int y, int z)
+void draw_cube(float x, float y, float z)
 {
     glBegin(GL_QUADS);
 

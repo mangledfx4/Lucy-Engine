@@ -15,6 +15,8 @@
 float angle_x = 0.0;
 float angle_y = 0.0;
 float angle = 0.0f;
+float mouse_dx = 0.0f;
+float mouse_dy = 0.0f;
 
 
 static int lua_hello(lua_State *L)
@@ -24,12 +26,11 @@ static int lua_hello(lua_State *L)
 }
 static int lua_cube(lua_State *L)
 {
-    int x = luaL_checkinteger(L, 1);
-    int y = luaL_checkinteger(L, 2);
-    int z = luaL_checkinteger(L, 3);
+    float x = (float)luaL_checknumber(L, 1);
+    float y = (float)luaL_checknumber(L, 2);
+    float z = (float)luaL_checknumber(L, 3);
 
     draw_cube(x, y, z);
-
     return 0;
 }
 static int lua_floor(lua_State *L)
@@ -40,8 +41,35 @@ static int lua_floor(lua_State *L)
     draw_floor(x1, y1, z1);
     return 0;
 }
+
+static int lua_mouse_delta(lua_State *L)
+{
+    lua_pushnumber(L, mouse_dx);
+    lua_pushnumber(L, mouse_dy);
+
+    mouse_dx = 0;
+    mouse_dy = 0;
+
+    return 2;
+}
         
-        
+static int lua_set_camera(lua_State *L)
+{
+    float x = (float)luaL_checknumber(L, 1);
+    float y = (float)luaL_checknumber(L, 2);
+    float z = (float)luaL_checknumber(L, 3);
+
+    float pitch = (float)luaL_checknumber(L, 4);
+    float yaw = (float)luaL_checknumber(L, 5);
+
+    //glLoadIdentity();
+
+    glTranslatef(x, y, z);
+    glRotatef(pitch, 1.0f, 0.0f, 0.0f);
+    glRotatef(yaw, 0.0f, 1.0f, 0.0f);
+
+    return 0;
+}
 
 int main(int argc, char *argv[])
 {
@@ -58,7 +86,8 @@ int main(int argc, char *argv[])
     lua_register(L, "say_hello", lua_hello);
 	lua_register(L, "draw_cube", lua_cube);
 	lua_register(L, "draw_plane", lua_floor);
-	
+	lua_register(L, "get_mouse_delta", lua_mouse_delta);
+    lua_register(L, "set_camera", lua_set_camera);
 	luaL_dofile(L, "mods/main.lua");
 	if (luaL_dofile(L, "mods/main.lua") != LUA_OK)
 {
@@ -123,10 +152,8 @@ int main(int argc, char *argv[])
             }
             if (event.type == SDL_MOUSEMOTION)
             {
-                angle_y += event.motion.xrel;
-                angle_x += event.motion.yrel;
-                // printf("Mouse X", angle_x, "\n");
-                // printf("Mouse Y", angle_y, "\n");
+                mouse_dx += event.motion.xrel;
+                mouse_dy += event.motion.yrel;
             }
         }
 
@@ -136,39 +163,60 @@ int main(int argc, char *argv[])
         // draw_text(50, 100, 200, 30, say, font);
       //  SDL_RenderPresent(renderer); //shows you whatever you wanted to
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glLoadIdentity();
+        //glLoadIdentity();
 
         glTranslatef(0.0f, 0.0f, -5.0f);
         //glRotatef(angle, 1.0f, 1.0f, 0.0f);
-        glRotatef(angle_x, 1.0f, 0.0f, 0.0f);
-        glRotatef(angle_y, 0.0f, 1.0f, 0.0f);
+        //glRotatef(angle_x, 1.0f, 0.0f, 0.0f);
+        //glRotatef(angle_y, 0.0f, 1.0f, 0.0f);
 
         //draw_cube(0, 0, 0); //YOU CAN'T MOVE THE CUBE AGAIN!
         //draw_floor(0, -1, 0);
         //draw_floor();
         //printf ("Floor drawn!");
-lua_getglobal(L, "draw");
-//lua_getglobal(L, "randdraw");
+//lua_getglobal(L, "update");
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-if (lua_isfunction(L, -1))
-{
-    if (lua_pcall(L, 0, 0, 0) != LUA_OK)
-    {
-        fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
-        lua_pop(L, 1);
-    }
-}
-else
-{
-    lua_pop(L, 1);
-}
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+        // UPDATE
+        lua_getglobal(L, "update");
+
+        if (lua_isfunction(L, -1))
+        {
+            if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+            {
+                fprintf(stderr, "Lua update error: %s\n", lua_tostring(L, -1));
+                lua_pop(L, 1);
+            }
+        }
+        else
+        {
+            lua_pop(L, 1);
+        }
+
+        // DRAW
+        lua_getglobal(L, "draw");
+
+        if (lua_isfunction(L, -1))
+        {
+            if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+            {
+                fprintf(stderr, "Lua draw error: %s\n", lua_tostring(L, -1));
+                lua_pop(L, 1);
+            }
+        }
+        else
+        {
+            lua_pop(L, 1);
+        }
 
         SDL_GL_SwapWindow(window);
-
-        //angle += 1.0f;
     }
 	lua_close(L);
     return 0;
 }
+
