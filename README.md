@@ -1,6 +1,3 @@
-Fuck this Readme, look in the "Lucy-Engine" folder for the actual newer engine version (at least until I FIX IT)
-I'll copy the new Readme into here:
-
 # Lucy-Engine
 
 A custom game engine written in C, at 14 years old, and named after a long dead pet bird.
@@ -50,3 +47,7 @@ sudo apt install build-essential \
     liblua5.4-dev
 
 If you use a different Linux distro, use the relevent dependencies if you can find them/make them
+
+# image
+
+<img width="1856" height="999" alt="image" src="https://github.com/user-attachments/assets/072357a0-73e2-45b1-9b51-7550edfeb3ce" />
